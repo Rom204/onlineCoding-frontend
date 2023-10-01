@@ -1,7 +1,7 @@
 import io from "socket.io-client";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useStore } from "../store";
+// import { useStore } from "../store";
 import { CodeEditor } from "./CodeEditor";
 
 const CodePage = () => {
@@ -13,16 +13,16 @@ const CodePage = () => {
   const socket = io("http://localhost:3000", {
     transports: ["websocket"],
   });
-  const [isConnected, setIsConnected] = useState(true);
+  // const [isConnected, setIsConnected] = useState(true);
   useEffect(() => {
     function onConnect() {
-      setIsConnected(true);
+      // setIsConnected(true);
       socket.emit("CONNECTED_TO_ROOM", { roomId });
       console.log("connected");
     }
 
     function onDisconnect() {
-      setIsConnected(false);
+      // setIsConnected(false);
       console.log("disconnected");
     }
     // if (!isConnected) {
