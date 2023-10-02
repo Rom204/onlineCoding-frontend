@@ -6,6 +6,7 @@ import { CodeEditor } from "./CodeEditor";
 // import socket from "../socketService";
 const socket = io("https://onlinecoding-backend.onrender.com", {
   transports: ["websocket"],
+  autoConnect: false,
 });
 
 const CodePage = () => {
@@ -15,25 +16,29 @@ const CodePage = () => {
   const roomId = state.code.id;
   const [codeValue, setCodeValue] = useState(state.code.problem);
 
-  // const [isConnected, setIsConnected] = useState(true);
+  const [isConnected, setIsConnected] = useState(socket.connected);
   useEffect(() => {
-    console.log("runnning ?!?")
+    console.log("runnning ?!?");
     // function onConnect() {
     //   console.log("connected");
     //   // setIsConnected(true);
     //   socket.emit("CONNECTED_TO_ROOM", { roomId });
     // }
 
-    function onDisconnect() {
-      // setIsConnected(false);
-      console.log("disconnected");
-    }
+    // function onDisconnect() {
+    //   setIsConnected(false);
+    //   console.log("disconnected");
+    // }
     // if (!isConnected) {
     socket.on("connect", () => {
-      console.log(`connected! now connecting to room ${roomId}`);
+      setIsConnected(true);
+      console.log(`connected = ${isConnected} now connecting to room ${roomId}`);
       socket.emit("CONNECTED_TO_ROOM", { roomId });
     });
-    socket.on("disconnect", onDisconnect);
+    socket.on("disconnect", () => {
+      setIsConnected(false);
+      console.log("disconnected");
+    });
     // }
 
     // socket.on("CODE_CHANGED", (dataReceived) => {
@@ -47,9 +52,15 @@ const CodePage = () => {
 
     return () => {
       socket.off("connect", () => {
-        console.log("Disconnecting....")
+        setIsConnected(true);
+        console.log(`connected! now connecting to room ${roomId}`);
+        socket.emit("CONNECTED_TO_ROOM", { roomId });
+        // console.log("Disconnecting....")
       });
-      socket.off("disconnect", onDisconnect);
+      socket.off("disconnect", () => {
+        setIsConnected(false);
+        console.log("disconnected");
+      });
     };
   }, []);
   useEffect(() => {
