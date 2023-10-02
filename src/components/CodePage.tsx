@@ -46,7 +46,9 @@ const CodePage = () => {
     // });
 
     return () => {
-      socket.off("connect", onConnect);
+      socket.off("connect", () => {
+        console.log("Disconnecting....")
+      });
       socket.off("disconnect", onDisconnect);
     };
   }, []);
