@@ -47,10 +47,11 @@ const CodeEditor = ({ value, roomId }: any) => {
         extensions: [
           EditorView.updateListener.of(({ state }) => {
             console.log("editor updates :  ", state.doc.toString(), roomId);
-            socket.emit("CODE_CHANGED", {
+            setTimeout(() => {socket.emit("CODE_CHANGED", {
               codeValue: state.doc.toString(),
               roomId,
             });
+          }, 1000);
           }),
           basicSetup,
           highlightActiveLineGutter(),
