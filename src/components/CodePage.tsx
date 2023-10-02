@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 // import { useStore } from "../store";
 import { CodeEditor } from "./CodeEditor";
 // import socket from "../socketService";
+const socket = io("https://onlinecoding-backend.onrender.com", {
+  transports: ["websocket"],
+});
 
 const CodePage = () => {
   let { state } = useLocation();
@@ -11,16 +14,9 @@ const CodePage = () => {
   // console.log(socket.connected);
   const roomId = state.code.id;
   const [codeValue, setCodeValue] = useState(state.code.problem);
-  const changedCode = (e: any) => {
-    console.log(e.target.value);
-    setCodeValue(e.target.value);
-  }
+
   // const [isConnected, setIsConnected] = useState(true);
   useEffect(() => {
-    const socket = io("https://onlinecoding-backend.onrender.com", {
-      transports: ["websocket"],
-    });
-
     function onConnect() {
       // setIsConnected(true);
       socket.emit("CONNECTED_TO_ROOM", { roomId });
@@ -35,6 +31,15 @@ const CodePage = () => {
     socket.on("connect", onConnect);
     socket.on("disconnect", onDisconnect);
     // }
+
+    socket.on("CODE_CHANGED", (dataReceived) => {
+      if (dataReceived === null) {
+        console.log(dataReceived);
+        return;
+      }
+      setCodeValue(dataReceived);
+      console.log(dataReceived);
+    });
 
     return () => {
       socket.off("connect", onConnect);
@@ -53,6 +58,11 @@ const CodePage = () => {
   //   });
   //   // console.log(codeValue);
   // }, [codeValue]);
+  const changedCode = (e: any) => {
+    console.log(e.target.value);
+    setCodeValue(e.target.value);
+    socket.emit("CODE_CHANGED", { codeValue, roomId });
+  };
 
   return (
     <div className="h-full w-full">
