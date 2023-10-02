@@ -32,14 +32,14 @@ const CodePage = () => {
     socket.on("disconnect", onDisconnect);
     // }
 
-    socket.on("CODE_CHANGED", (dataReceived) => {
-      if (dataReceived === null) {
-        console.log(dataReceived);
-        return;
-      }
-      setCodeValue(dataReceived);
-      console.log(dataReceived);
-    });
+    // socket.on("CODE_CHANGED", (dataReceived) => {
+    //   if (dataReceived === null) {
+    //     console.log(dataReceived);
+    //     return;
+    //   }
+    //   setCodeValue(dataReceived);
+    //   console.log(dataReceived);
+    // });
 
     return () => {
       socket.off("connect", onConnect);
