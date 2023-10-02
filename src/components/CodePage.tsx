@@ -11,7 +11,9 @@ const CodePage = () => {
   // console.log(socket.connected);
   const roomId = state.code.id;
   const [codeValue, setCodeValue] = useState(state.code.problem);
-
+  const changedCode = (e: any) => {
+    console.log(e.target.value);
+  }
   // const [isConnected, setIsConnected] = useState(true);
   useEffect(() => {
     const socket = io("https://onlinecoding-backend.onrender.com", {
@@ -38,18 +40,18 @@ const CodePage = () => {
       socket.off("disconnect", onDisconnect);
     };
   }, []);
-  useEffect(() => {
-    socket.emit("CODE_CHANGED", { codeValue, roomId });
-    socket.on("CODE_CHANGED", (dataReceived) => {
-      if (dataReceived === null) {
-        console.log(dataReceived);
-        return;
-      }
-      setCodeValue(dataReceived);
-      console.log(dataReceived);
-    });
-    // console.log(codeValue);
-  }, [codeValue]);
+  // useEffect(() => {
+  //   socket.emit("CODE_CHANGED", { codeValue, roomId });
+  //   socket.on("CODE_CHANGED", (dataReceived) => {
+  //     if (dataReceived === null) {
+  //       console.log(dataReceived);
+  //       return;
+  //     }
+  //     setCodeValue(dataReceived);
+  //     console.log(dataReceived);
+  //   });
+  //   // console.log(codeValue);
+  // }, [codeValue]);
 
   return (
     <div className="h-full w-full">
@@ -62,7 +64,8 @@ const CodePage = () => {
         <div>
           <CodeEditor
             value={codeValue}
-            onChange={(e: any) => setCodeValue(e.target.value)}
+            // onChange={(e: any) => setCodeValue(e.target.value)}
+            onChange={changedCode}
           />
         </div>
       </div>
