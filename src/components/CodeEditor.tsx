@@ -42,14 +42,10 @@ const CodeEditor = ({ value, roomId }: any) => {
   // console.log("value ", value);
   console.log('editor: ', value, roomId);
   const editor = useRef<HTMLDivElement | null>(null);
-  const view = useRef<any>()
+  const view = useRef<any>();
   
   useEffect(() => {
     if (!editor.current) return;
-
-    // socket.on('CODE_CHANGED', (code) => {
-
-    // })
 
     view.current = new EditorView({
       state: EditorState.create({
@@ -99,17 +95,17 @@ const CodeEditor = ({ value, roomId }: any) => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if(view.current && view.current.state.doc.toString() !== value) {
-  //     view.current.dispatch({
-  //       changes: {
-  //         from: 0,
-  //         to: view.current.state.doc.length,
-  //         insert: value
-  //       }
-  //     })
-  //   }
-  // },[value])
+  useEffect(() => {
+    if(view.current && view.current.state.doc.toString() !== value) {
+      view.current.dispatch({
+        changes: {
+          from: 0,
+          to: view.current.state.doc.length,
+          insert: value
+        }
+      })
+    }
+  },[value])
 
   return <div ref={editor} />;
 };
