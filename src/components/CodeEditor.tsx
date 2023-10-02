@@ -56,6 +56,7 @@ const CodeEditor = ({ value, roomId }: any) => {
         doc: value,
         extensions: [
           EditorView.updateListener.of(({ state }) => {
+            console.log('editor updates :  ',state.doc.toString(), roomId)
             // onChange({ target: { value: state.doc.toString() } });
             socket.emit('CODE_CHANGED', { codeValue: state.doc.toString(), roomId })
           }),
