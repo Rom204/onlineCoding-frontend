@@ -61,7 +61,7 @@ const CodePage = () => {
   const changedCode = (e: any) => {
     console.log(e.target.value);
     setCodeValue(e.target.value);
-    socket.emit("CODE_CHANGED", { codeValue, roomId });
+    socket.emit("CODE_CHANGED", { codeValue: e.target.value, roomId });
   };
 
   return (
