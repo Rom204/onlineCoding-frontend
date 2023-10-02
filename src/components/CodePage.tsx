@@ -17,6 +17,7 @@ const CodePage = () => {
 
   // const [isConnected, setIsConnected] = useState(true);
   useEffect(() => {
+    console.log("runnning ?!?")
     function onConnect() {
       console.log("connected");
       // setIsConnected(true);
