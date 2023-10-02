@@ -18,6 +18,7 @@ const CodePage = () => {
 
   useEffect(() => {
     console.log('first use effect runs !')
+    socket.connect();
     function onConnect() {
       setIsConnected(true);
       console.log(`
@@ -55,11 +56,12 @@ const CodePage = () => {
       console.log('first use effect unmounted !');
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
+      socket.disconnect();
     };
   }, []);
   useEffect(() => {
     console.log('second use effect run ! ')
-    
+
     socket.emit("CODE_CHANGED", { codeValue, roomId });
     socket.on("CODE_CHANGED", (dataReceived) => {
       if (dataReceived === null) {
