@@ -6,7 +6,6 @@ import { CodeEditor } from "./CodeEditor";
 // import socket from "../socketService";
 const socket = io("https://onlinecoding-backend.onrender.com", {
   transports: ["websocket"],
-  autoConnect: false,
 });
 
 const CodePage = () => {
