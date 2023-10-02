@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Lobby = () => {
   const [codeProblems, setCodeProblems] = useState([]);
   useEffect(() => {
-    fetch("https://onlinecoding-backend.onrender.com/")
+    fetch("https://onlinecoding-backend.onrender.com/codeProblems")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
