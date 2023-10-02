@@ -21,9 +21,7 @@ const Lobby = () => {
         {codeProblems.map((problem) => {
           return (
             <Link className="border-2" key={problem["id"]} to={`/codePage/${problem["id"]}`} state={{ code: problem }}>
-            {/* // <Link className="border-2" key={problem["id"]} to={`/codePage`} state={{ code: problem }}> */}
               <button className="h-full w-full">
-
               <h4>{problem["title"]}</h4>
               </button>
             </Link>

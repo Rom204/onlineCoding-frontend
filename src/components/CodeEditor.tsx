@@ -32,15 +32,9 @@ import {
 } from "@codemirror/view";
 import { basicSetup } from "codemirror";
 import socket from "../socketService";
-// import socket from "../socketService";
-
-// import { io } from "socket.io-client";
-
-// const socket = io("http://localhost:3000");
 
 const CodeEditor = ({ value, roomId }: any) => {
-  // console.log("value ", value);
-  console.log('editor: ', value, roomId);
+  console.log('code', value);
   const editor = useRef<HTMLDivElement | null>(null);
   const view = useRef<any>();
   
@@ -53,7 +47,6 @@ const CodeEditor = ({ value, roomId }: any) => {
         extensions: [
           EditorView.updateListener.of(({ state }) => {
             console.log('editor updates :  ',state.doc.toString(), roomId)
-            // onChange({ target: { value: state.doc.toString() } });
             socket.emit('CODE_CHANGED', { codeValue: state.doc.toString(), roomId })
           }),
           basicSetup,
