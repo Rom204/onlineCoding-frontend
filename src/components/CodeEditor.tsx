@@ -91,20 +91,6 @@ const CodeEditor = ({ value, roomId }: any) => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if(view.current && view.current.state.doc.toString() !== value) {
-  //     setTimeout(() => {
-  //       view.current.dispatch({
-  //       changes: {
-  //         from: 0,
-  //         to: view.current.state.doc.length,
-  //         insert: value
-  //       }
-  //     })
-  //   },1000);
-
-  // }},[value])
-
   useEffect(() => {
     socket.on("CODE_CHANGED", (dataReceived) => {
       if (
