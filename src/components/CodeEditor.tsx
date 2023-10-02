@@ -109,7 +109,7 @@ const CodeEditor = ({ value, roomId }: any) => {
   useEffect(() => {
     socket.on("CODE_CHANGED", (dataReceived) => {
       if (dataReceived === null || dataReceived === view.current.state.doc.toString()) {
-        console.log(dataReceived);
+        // console.log(dataReceived);
         return;
       }
       setTimeout(() => {
