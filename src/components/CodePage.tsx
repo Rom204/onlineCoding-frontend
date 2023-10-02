@@ -1,39 +1,36 @@
-import io from "socket.io-client";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 // import { useStore } from "../store";
 import { CodeEditor } from "./CodeEditor";
-// import socket from "../socketService";
-const socket = io("https://onlinecoding-backend.onrender.com", {
-  transports: ["websocket"],
-});
+import socket from "../socketService";
+
 
 const CodePage = () => {
-  let { state } = useLocation();
-  // console.log(state);
-  // console.log(socket.connected);
-  const roomId = state.code.id;
-  const [codeValue, setCodeValue] = useState(state.code.problem);
-
   const [isConnected, setIsConnected] = useState(socket.connected);
-  useEffect(() => {
-    console.log("runnning ?!?");
-    // function onConnect() {
-    //   console.log("connected");
-    //   // setIsConnected(true);
-    //   socket.emit("CONNECTED_TO_ROOM", { roomId });
-    // }
+  let { state } = useLocation();
+  const [codeValue, setCodeValue] = useState(state.code.problem);
+  const roomId = state.code.id;
 
-    // function onDisconnect() {
-    //   setIsConnected(false);
-    //   console.log("disconnected");
-    // }
-    // if (!isConnected) {
-    socket.on("connect", () => {
+  useEffect(() => {
+
+    function onConnect() {
       setIsConnected(true);
-      console.log(`connected = ${isConnected} now connecting to room ${roomId}`);
+      console.log(`
+      connected status: ${isConnected} !
+      now connecting to room ${roomId}
+      `)
       socket.emit("CONNECTED_TO_ROOM", { roomId });
-    });
+    }
+
+    function onDisconnect() {
+      setIsConnected(false);
+      console.log(`
+      connected status: ${isConnected} !`);
+    }
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+
     socket.on("disconnect", () => {
       setIsConnected(false);
       console.log("disconnected");
@@ -50,16 +47,8 @@ const CodePage = () => {
     // });
 
     return () => {
-      socket.off("connect", () => {
-        setIsConnected(true);
-        console.log(`connected! now connecting to room ${roomId}`);
-        socket.emit("CONNECTED_TO_ROOM", { roomId });
-        // console.log("Disconnecting....")
-      });
-      socket.off("disconnect", () => {
-        setIsConnected(false);
-        console.log("disconnected");
-      });
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
     };
   }, []);
   useEffect(() => {
@@ -72,7 +61,6 @@ const CodePage = () => {
       setCodeValue(dataReceived);
       console.log(dataReceived);
     });
-    // console.log(codeValue);
   }, [codeValue]);
   const changedCode = (e: any) => {
     console.log(e.target.value);
