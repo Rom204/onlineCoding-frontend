@@ -6,13 +6,18 @@ import socket from "../socketService";
 
 
 const CodePage = () => {
+  console.log('socket: ', socket);
   const [isConnected, setIsConnected] = useState(socket.connected);
+  console.log('is connected: ', isConnected);
   let { state } = useLocation();
+  console.log('state: ', state);
   const [codeValue, setCodeValue] = useState(state.code.problem);
+  console.log("code value", codeValue)
   const roomId = state.code.id;
+  console.log('roomID', roomId);
 
   useEffect(() => {
-
+    console.log('first use effect runs !')
     function onConnect() {
       setIsConnected(true);
       console.log(`
@@ -31,10 +36,10 @@ const CodePage = () => {
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
 
-    socket.on("disconnect", () => {
-      setIsConnected(false);
-      console.log("disconnected");
-    });
+    // socket.on("disconnect", () => {
+    //   setIsConnected(false);
+    //   console.log("disconnected");
+    // });
     // }
 
     // socket.on("CODE_CHANGED", (dataReceived) => {
@@ -47,11 +52,14 @@ const CodePage = () => {
     // });
 
     return () => {
+      console.log('first use effect unmounted !');
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
     };
   }, []);
   useEffect(() => {
+    console.log('second use effect run ! ')
+    
     socket.emit("CODE_CHANGED", { codeValue, roomId });
     socket.on("CODE_CHANGED", (dataReceived) => {
       if (dataReceived === null) {
