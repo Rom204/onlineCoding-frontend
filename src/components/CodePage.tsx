@@ -18,9 +18,9 @@ const CodePage = () => {
   // const [isConnected, setIsConnected] = useState(true);
   useEffect(() => {
     function onConnect() {
+      console.log("connected");
       // setIsConnected(true);
       socket.emit("CONNECTED_TO_ROOM", { roomId });
-      console.log("connected");
     }
 
     function onDisconnect() {
