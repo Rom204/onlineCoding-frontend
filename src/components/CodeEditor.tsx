@@ -98,17 +98,17 @@ const CodeEditor = ({ value, roomId }: any) => {
     };
   }, []);
 
-  useEffect(() => {
-    if(view.current && view.current.state.doc.toString() !== value) {
-      view.current.dispatch({
-        changes: {
-          from: 0,
-          to: view.current.state.doc.length,
-          insert: value
-        }
-      })
-    }
-  },[value])
+  // useEffect(() => {
+  //   if(view.current && view.current.state.doc.toString() !== value) {
+  //     view.current.dispatch({
+  //       changes: {
+  //         from: 0,
+  //         to: view.current.state.doc.length,
+  //         insert: value
+  //       }
+  //     })
+  //   }
+  // },[value])
 
   return <div ref={editor} />;
 };
