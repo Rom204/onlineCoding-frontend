@@ -47,11 +47,10 @@ const CodeEditor = ({ value, roomId }: any) => {
         extensions: [
           EditorView.updateListener.of(({ state }) => {
             console.log("editor updates :  ", state.doc.toString(), roomId);
-            setTimeout(() => {socket.emit("CODE_CHANGED", {
+            socket.emit("CODE_CHANGED", {
               codeValue: state.doc.toString(),
               roomId,
             });
-          }, 1000);
           }),
           basicSetup,
           highlightActiveLineGutter(),
@@ -108,20 +107,21 @@ const CodeEditor = ({ value, roomId }: any) => {
 
   useEffect(() => {
     socket.on("CODE_CHANGED", (dataReceived) => {
-      if (dataReceived === null || dataReceived === view.current.state.doc.toString()) {
-        // console.log(dataReceived);
+      if (
+        dataReceived === null ||
+        dataReceived === view.current.state.doc.toString()
+      )
         return;
-      }
-      setTimeout(() => {
-        view.current.dispatch({
-          changes: {
-            from: 0,
-            to: view.current.state.doc.length,
-            insert: dataReceived,
-          },
-        });
-        console.log(dataReceived);
-      }, 1000);
+
+      console.log(dataReceived);
+
+      view.current.dispatch({
+        changes: {
+          from: 0,
+          to: view.current.state.doc.length,
+          insert: dataReceived,
+        },
+      });
     });
     return () => {
       socket.off("CODE_CHANGED");
