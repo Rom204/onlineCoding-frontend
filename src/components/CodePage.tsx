@@ -68,7 +68,10 @@ const CodePage = () => {
         console.log(dataReceived);
         return;
       }
-      setCodeValue(dataReceived);
+      setTimeout(() => {
+        setCodeValue(dataReceived);
+
+      }, 1000);
       console.log(dataReceived);
     });
     return () => {
