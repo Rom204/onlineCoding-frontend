@@ -18,18 +18,21 @@ const CodePage = () => {
   // const [isConnected, setIsConnected] = useState(true);
   useEffect(() => {
     console.log("runnning ?!?")
-    function onConnect() {
-      console.log("connected");
-      // setIsConnected(true);
-      socket.emit("CONNECTED_TO_ROOM", { roomId });
-    }
+    // function onConnect() {
+    //   console.log("connected");
+    //   // setIsConnected(true);
+    //   socket.emit("CONNECTED_TO_ROOM", { roomId });
+    // }
 
     function onDisconnect() {
       // setIsConnected(false);
       console.log("disconnected");
     }
     // if (!isConnected) {
-    socket.on("connect", onConnect);
+    socket.on("connect", () => {
+      console.log(`connected! now connecting to room ${roomId}`);
+      socket.emit("CONNECTED_TO_ROOM", { roomId });
+    });
     socket.on("disconnect", onDisconnect);
     // }
 
