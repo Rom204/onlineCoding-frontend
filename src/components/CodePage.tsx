@@ -13,6 +13,7 @@ const CodePage = () => {
   const [codeValue, setCodeValue] = useState(state.code.problem);
   const changedCode = (e: any) => {
     console.log(e.target.value);
+    setCodeValue(e.target.value);
   }
   // const [isConnected, setIsConnected] = useState(true);
   useEffect(() => {
