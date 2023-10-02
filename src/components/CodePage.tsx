@@ -7,7 +7,8 @@ import socket from "../socketService";
 const CodePage = () => {
   const [isConnected, setIsConnected] = useState(socket.connected);
   let { state } = useLocation();
-  const [codeValue, setCodeValue] = useState(state.code.problem);
+  // const [codeValue, setCodeValue] = useState(state.code.problem);
+  const codeValue = state.code.problem;
   const roomId = state.code.id;
 
   useEffect(() => {
@@ -37,21 +38,21 @@ const CodePage = () => {
       socket.disconnect();
     };
   }, []);
-  useEffect(() => {
-    socket.on("CODE_CHANGED", (dataReceived) => {
-      if (dataReceived === null) {
-        console.log(dataReceived);
-        return;
-      }
-      setTimeout(() => {
-        setCodeValue(dataReceived);
-        console.log(dataReceived);
-      }, 1000);
-    });
-    return () => {
-      socket.off('CODE_CHANGED');
-    }
-  }, []);
+  // useEffect(() => {
+  //   socket.on("CODE_CHANGED", (dataReceived) => {
+  //     if (dataReceived === null) {
+  //       console.log(dataReceived);
+  //       return;
+  //     }
+  //     setTimeout(() => {
+  //       setCodeValue(dataReceived);
+  //       console.log(dataReceived);
+  //     }, 1000);
+  //   });
+  //   return () => {
+  //     socket.off('CODE_CHANGED');
+  //   }
+  // }, []);
 
   return (
     <div className="h-full w-full">

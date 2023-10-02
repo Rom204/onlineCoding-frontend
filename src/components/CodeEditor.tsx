@@ -34,10 +34,10 @@ import { basicSetup } from "codemirror";
 import socket from "../socketService";
 
 const CodeEditor = ({ value, roomId }: any) => {
-  console.log('code', value);
+  console.log("code", value);
   const editor = useRef<HTMLDivElement | null>(null);
   const view = useRef<any>();
-  
+
   useEffect(() => {
     if (!editor.current) return;
 
@@ -46,8 +46,11 @@ const CodeEditor = ({ value, roomId }: any) => {
         doc: value,
         extensions: [
           EditorView.updateListener.of(({ state }) => {
-            console.log('editor updates :  ',state.doc.toString(), roomId)
-            socket.emit('CODE_CHANGED', { codeValue: state.doc.toString(), roomId })
+            console.log("editor updates :  ", state.doc.toString(), roomId);
+            socket.emit("CODE_CHANGED", {
+              codeValue: state.doc.toString(),
+              roomId,
+            });
           }),
           basicSetup,
           highlightActiveLineGutter(),
@@ -88,19 +91,41 @@ const CodeEditor = ({ value, roomId }: any) => {
     };
   }, []);
 
+  // useEffect(() => {
+  //   if(view.current && view.current.state.doc.toString() !== value) {
+  //     setTimeout(() => {
+  //       view.current.dispatch({
+  //       changes: {
+  //         from: 0,
+  //         to: view.current.state.doc.length,
+  //         insert: value
+  //       }
+  //     })
+  //   },1000);
+
+  // }},[value])
+
   useEffect(() => {
-    if(view.current && view.current.state.doc.toString() !== value) {
+    socket.on("CODE_CHANGED", (dataReceived) => {
+      if (dataReceived === null) {
+        console.log(dataReceived);
+        return;
+      }
       setTimeout(() => {
         view.current.dispatch({
-        changes: {
-          from: 0,
-          to: view.current.state.doc.length,
-          insert: value
-        }
-      })
-    },1000);
-    
-  }},[value])
+          changes: {
+            from: 0,
+            to: view.current.state.doc.length,
+            insert: dataReceived,
+          },
+        });
+        console.log(dataReceived);
+      }, 1000);
+    });
+    return () => {
+      socket.off("CODE_CHANGED");
+    };
+  }, []);
 
   return <div ref={editor} />;
 };
