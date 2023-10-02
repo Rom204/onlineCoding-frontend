@@ -46,22 +46,22 @@ const CodePage = () => {
       socket.off("disconnect", onDisconnect);
     };
   }, []);
-  // useEffect(() => {
-  //   socket.emit("CODE_CHANGED", { codeValue, roomId });
-  //   socket.on("CODE_CHANGED", (dataReceived) => {
-  //     if (dataReceived === null) {
-  //       console.log(dataReceived);
-  //       return;
-  //     }
-  //     setCodeValue(dataReceived);
-  //     console.log(dataReceived);
-  //   });
-  //   // console.log(codeValue);
-  // }, [codeValue]);
+  useEffect(() => {
+    socket.emit("CODE_CHANGED", { codeValue, roomId });
+    socket.on("CODE_CHANGED", (dataReceived) => {
+      if (dataReceived === null) {
+        console.log(dataReceived);
+        return;
+      }
+      setCodeValue(dataReceived);
+      console.log(dataReceived);
+    });
+    // console.log(codeValue);
+  }, [codeValue]);
   const changedCode = (e: any) => {
     console.log(e.target.value);
     setCodeValue(e.target.value);
-    socket.emit("CODE_CHANGED", { codeValue: e.target.value, roomId });
+    // socket.emit("CODE_CHANGED", { codeValue: e.target.value, roomId });
   };
 
   return (
