@@ -11,7 +11,7 @@ const Lobby = () => {
         setCodeProblems(data);
       })
       .catch((error) => {
-        console.error("error", error);
+        console.error("oops could not get data", error);
       });
   }, []);
   return (
