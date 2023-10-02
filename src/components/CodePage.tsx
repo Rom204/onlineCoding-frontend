@@ -6,11 +6,11 @@ import socket from "../socketService";
 
 
 const CodePage = () => {
-  console.log('socket: ', socket);
+  // console.log('socket: ', socket);
   const [isConnected, setIsConnected] = useState(socket.connected);
-  console.log('is connected: ', isConnected);
+  // console.log('is connected: ', isConnected);
   let { state } = useLocation();
-  console.log('state: ', state);
+  // console.log('state: ', state);
   const [codeValue, setCodeValue] = useState(state.code.problem);
   console.log("code value", codeValue)
   const roomId = state.code.id;
@@ -53,7 +53,7 @@ const CodePage = () => {
     // });
 
     return () => {
-      console.log('first use effect unmounted !');
+      // console.log('first use effect unmounted !');
       socket.off("connect", onConnect);
       socket.off("disconnect", onDisconnect);
       socket.disconnect();
