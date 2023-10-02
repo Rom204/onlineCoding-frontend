@@ -62,7 +62,7 @@ const CodePage = () => {
   useEffect(() => {
     console.log('second use effect run ! ')
 
-    socket.emit("CODE_CHANGED", { codeValue, roomId });
+    // socket.emit("CODE_CHANGED", { codeValue, roomId });
     socket.on("CODE_CHANGED", (dataReceived) => {
       if (dataReceived === null) {
         console.log(dataReceived);
@@ -72,11 +72,11 @@ const CodePage = () => {
       console.log(dataReceived);
     });
   }, [codeValue]);
-  const changedCode = (e: any) => {
-    console.log(e.target.value);
-    setCodeValue(e.target.value);
-    // socket.emit("CODE_CHANGED", { codeValue: e.target.value, roomId });
-  };
+  // const changedCode = (e: any) => {
+  //   console.log(e.target.value);
+  //   setCodeValue(e.target.value);
+  //   // socket.emit("CODE_CHANGED", { codeValue: e.target.value, roomId });
+  // };
 
   return (
     <div className="h-full w-full">
@@ -90,7 +90,8 @@ const CodePage = () => {
           <CodeEditor
             value={codeValue}
             // onChange={(e: any) => setCodeValue(e.target.value)}
-            onChange={changedCode}
+            // onChange={changedCode}
+            roomId={roomId}
           />
         </div>
       </div>
