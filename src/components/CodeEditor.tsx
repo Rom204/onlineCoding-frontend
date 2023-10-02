@@ -97,15 +97,17 @@ const CodeEditor = ({ value, roomId }: any) => {
 
   useEffect(() => {
     if(view.current && view.current.state.doc.toString() !== value) {
-      view.current.dispatch({
+      setTimeout(() => {
+        view.current.dispatch({
         changes: {
           from: 0,
           to: view.current.state.doc.length,
           insert: value
         }
       })
-    }
-  },[value])
+    },1000);
+    
+  }},[value])
 
   return <div ref={editor} />;
 };
