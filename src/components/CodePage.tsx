@@ -71,7 +71,8 @@ const CodePage = () => {
       setCodeValue(dataReceived);
       console.log(dataReceived);
     });
-  }, [codeValue]);
+    socket.off('CODE_CHANGED');
+  }, []);
   // const changedCode = (e: any) => {
   //   console.log(e.target.value);
   //   setCodeValue(e.target.value);
