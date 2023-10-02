@@ -10,7 +10,7 @@ const CodePage = () => {
   // console.log(socket.connected);
   const roomId = state.code.id;
   const [codeValue, setCodeValue] = useState(state.code.problem);
-  const socket = io("http://localhost:3000", {
+  const socket = io("https://onlinecoding-backend.onrender.com", {
     transports: ["websocket"],
   });
   // const [isConnected, setIsConnected] = useState(true);
