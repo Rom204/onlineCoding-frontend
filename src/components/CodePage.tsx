@@ -1,10 +1,9 @@
-// import io from "socket.io-client";
+import io from "socket.io-client";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 // import { useStore } from "../store";
 import { CodeEditor } from "./CodeEditor";
-import socket from "../socketService";
-
+// import socket from "../socketService";
 
 const CodePage = () => {
   let { state } = useLocation();
@@ -12,11 +11,13 @@ const CodePage = () => {
   // console.log(socket.connected);
   const roomId = state.code.id;
   const [codeValue, setCodeValue] = useState(state.code.problem);
-  // const socket = io("https://onlinecoding-backend.onrender.com", {
-  //   transports: ["websocket"],
-  // });
+
   // const [isConnected, setIsConnected] = useState(true);
   useEffect(() => {
+    const socket = io("https://onlinecoding-backend.onrender.com", {
+      transports: ["websocket"],
+    });
+
     function onConnect() {
       // setIsConnected(true);
       socket.emit("CONNECTED_TO_ROOM", { roomId });
@@ -28,8 +29,8 @@ const CodePage = () => {
       console.log("disconnected");
     }
     // if (!isConnected) {
-      socket.on("connect", onConnect);
-      socket.on("disconnect", onDisconnect);
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
     // }
 
     return () => {
